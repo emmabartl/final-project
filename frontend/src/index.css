@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.title {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  z-index: 1;
+}
+
+.wave-emoji {
+  margin: 10px;
+}
+
+.search-box {
+  position: absolute;
+  width: 100%;
+  max-width: 300px;
+  top: 15%;
+  left: 5%;
+  z-index: 1;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  /* border-radius: 5px;
+  border: 2px 2px 2px #FA649A;
+  border-style: none; */
+}
+
+.flamingo-button {
+  position: absolute;
+  top: 15%;
+  left: 90%; 
+  width: 60px;
+  height: 30px;
+  z-index: 1;
+  padding: 10px;
+}
+
+.flamingo-img {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  padding: 10px;
+}
