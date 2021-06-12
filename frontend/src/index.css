@@ -41,20 +41,22 @@ code {
   border-style: none; */
 }
 
-.flamingo-button {
+.position-button {
   position: absolute;
-  top: 15%;
-  left: 90%; 
+  top: 5%;
+  right: 10%; 
   width: 60px;
   height: 30px;
+  background: none;
+  border: none;
   z-index: 1;
   padding: 10px;
 }
 
-.flamingo-img {
-  position: relative;
-  width: 20px;
-  height: 20px;
+.position-button-img {
+  width: 140px;
+  height: 140px;
   z-index: 1;
   padding: 10px;
+  cursor: pointer;
 }

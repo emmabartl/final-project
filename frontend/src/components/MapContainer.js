@@ -5,6 +5,8 @@ import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption 
 import '@reach/combobox/styles.css'
 
 import { Mapstyle } from './MapStyle'
+import { MapPlacesAutocomplete } from './MapPlacesAutocomplete'
+import { GetUserLocation } from './GetUserLocation'
 
 
 const libraries = ["places"] //if using google places
@@ -55,32 +57,11 @@ export const MapContainer = () => {
 		setSelected(null)
 	}
 
-	// const panMapTo = useCallback(({lat, lng}) => {
-	// 	mapRef.current.panTo({lat, lng})
-	// 	mapRef.current.setZoom(14)
-	// }, [])
+	const panMapTo = useCallback(({lat, lng}) => {
+		mapRef.current.panTo({lat, lng})
+		mapRef.current.setZoom(14)
+	}, [])
 
-	const GetUserLocation = () => {
-		return (
-			<button 
-				className="flamingo-button"
-				onClick={() => {
-					navigator.geolocation.getCurrentPosition(
-						(position) => {
-							console.log(position)
-							// panTo({
-							// 	lat: position.coords.latitude,
-							// 	lng: position.coords.longitude
-							// })
-						},
-						() => null
-					) 
-				}}	
-			>
-				<img className="flamingo-img" src="flamingo.png" alt="flamingo" />
-			</button>
-		)
-	}
 	
 	if (loadError) {
 		return "Error loading maps"
@@ -95,8 +76,8 @@ export const MapContainer = () => {
 			<h1 className="title">BadenBaden 
 				<span className="wave-emoji" role="img" aria-label="wave">🌊</span>
 			</h1>
-			{/* <Search /> */}
-			<GetUserLocation />
+			<MapPlacesAutocomplete panMapTo={panMapTo} />
+			<GetUserLocation panMapTo={panMapTo} />
 			<GoogleMap 
 				mapContainerStyle={mapContainerStyle}
 				zoom={8}
@@ -116,7 +97,7 @@ export const MapContainer = () => {
 							anchor: new window.google.maps.Point(15, 15)
 						}}
 						onClick={() => {
-							setSelected(marker) //how to change this to a function?
+							setSelected(marker) //change this to a function?
 						}}
 					/>
 				))}
