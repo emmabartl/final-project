@@ -105,13 +105,39 @@ app.post('/users', async (req, res) => {
   }
 })
 
-app.post('/bath', async (req, res) => {
+app.post('/bath', authenticateUser, async (req, res) => {
 	const newBath = await new Bath({ name: req.body.name }).save()
 	res.json(newBath)
-
-	// const { name } = req.body
-	// console.log(name)
 })
+
+app.post('/bath/:id/rate', async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const updatedBath = await Bath.findOneAndUpdate({ _id: id }, { $inc: { rating: 1 } }, { new: true })
+    if (updatedBath) {
+      res.json(updatedBath)
+    }
+  } catch (error) {
+    res.status(404).json({ message: 'Bath not found' })
+  }
+})
+
+app.delete('/bath/:id', async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const deletedBath = await Bath.findByIdAndDelete(id)
+    if (deletedBath) {
+      res.json(deletedBath)
+    } else {
+      res.status(404).json({ message: 'Bath not found' })
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request', error })
+  }
+})
+
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
