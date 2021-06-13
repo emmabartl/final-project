@@ -35,3 +35,5 @@ const bath = createSlice({
 		}
 	}
 })
+
+export default bath

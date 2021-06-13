@@ -1,15 +1,12 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api'
-import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
-import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox'
 import '@reach/combobox/styles.css'
 
-import { Mapstyle } from './MapStyle'
-import { MapPlacesAutocomplete } from './MapPlacesAutocomplete'
-import { GetUserLocation } from './GetUserLocation'
+import { Mapstyle } from '../components/MapStyle'
+import { MapPlacesAutocomplete } from '../components/MapPlacesAutocomplete'
+import { GetUserLocation } from '../components/GetUserLocation'
 
-
-const libraries = ["places"] //if using google places
+const libraries = ["places"] 
 
 const mapContainerStyle = {
 	width: "100vw",
@@ -27,7 +24,7 @@ const options = {
 	zoomControl: true	
 }
 
-export const MapContainer = () => {
+const BathMap = () => {
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: "AIzaSyDsRQkIeyHXT6ImlwQ5SsnJUhfKB7Kktww",
 		libraries
@@ -117,4 +114,4 @@ export const MapContainer = () => {
 	)
 }
 
-
+export default BathMap

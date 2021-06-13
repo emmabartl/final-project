@@ -1,6 +1,10 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api'
 
+const onButtonClick = () => {
+
+}
+
 export const GetUserLocation = ({ panMapTo }) => {
 	return (
 		<button 
@@ -13,8 +17,9 @@ export const GetUserLocation = ({ panMapTo }) => {
 							lat: position.coords.latitude,
 							lng: position.coords.longitude
 						})
-					},
-					() => null
+						//dispatch(bath.actions.setBaths([{lat, lng}]))
+					}
+					//, () => null
 				) 
 			}}	
 		>
