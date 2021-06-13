@@ -45,18 +45,40 @@ code {
   position: absolute;
   top: 5%;
   right: 10%; 
-  width: 60px;
+  width: 90px;
   height: 30px;
-  background: none;
-  border: none;
+  /* background: none;
+  border: none; */
   z-index: 1;
-  padding: 10px;
+  padding: 15px;
+  cursor: pointer;
 }
 
-.position-button-img {
+/* .position-button-img {
   width: 140px;
   height: 140px;
   z-index: 1;
   padding: 10px;
+  cursor: pointer;
+} */
+
+.create-button {
+  position: absolute;
+  top: 10%;
+  right: 10%; 
+  width: 90px;
+  height: 30px;
+  /* background: none;
+  border: none; */
+  z-index: 1;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.radio-buttons {
+  display: none;
+}
+
+.waves {
   cursor: pointer;
 }

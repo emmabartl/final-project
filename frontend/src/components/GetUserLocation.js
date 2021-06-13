@@ -1,29 +1,31 @@
 import React, { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api'
+import { useDispatch } from 'react-redux'
 
-const onButtonClick = () => {
+import user from '../reducers/user'
 
-}
 
 export const GetUserLocation = ({ panMapTo }) => {
+	const dispatch = useDispatch()
+
+	const onButtonClick = () => {
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				const lat = position.coords.latitude
+				const lng = position.coords.longitude
+
+				dispatch(user.actions.setCurrentPosition({lat, lng}))
+
+				panMapTo({ lat: lat, lng: lng })
+			}
+		)	
+	}
+
 	return (
 		<button 
 			className="position-button"
-			onClick={() => {
-				navigator.geolocation.getCurrentPosition(
-					(position) => {
-						console.log(position)
-						panMapTo({
-							lat: position.coords.latitude,
-							lng: position.coords.longitude
-						})
-						//dispatch(bath.actions.setBaths([{lat, lng}]))
-					}
-					//, () => null
-				) 
-			}}	
-		>
-			<img className="position-button-img" src="user.svg" alt="find-me-icon" />
+			onClick={onButtonClick}	
+		>Find me
+			{/* <img className="position-button-img" src="user.svg" alt="find-me-icon" /> */}
 		</button>
 	)
 }

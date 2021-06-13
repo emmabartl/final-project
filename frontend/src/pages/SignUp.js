@@ -3,14 +3,14 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { API_URL } from '../reusable/urls'
-import bath from '../reducers/bath'
+import user from '../reducers/user'
 
 const SignUp = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const accessToken = useSelector(store => store.bath.accessToken)
-  const errors = useSelector(store => store.bath.errors)
+  const accessToken = useSelector(store => store.user.accessToken)
+  const errors = useSelector(store => store.user.errors)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -45,19 +45,19 @@ const SignUp = () => {
       .then(data => {
         if (data.success) {
           batch(() => {
-            dispatch(bath.actions.setUserId(data.userId))
-            dispatch(bath.actions.setUsername(data.username))
-            dispatch(bath.actions.setAccessToken(data.accessToken))
-            dispatch(bath.actions.setErrors(null))
+            dispatch(user.actions.setUserId(data.userId))
+            dispatch(user.actions.setUsername(data.username))
+            dispatch(user.actions.setAccessToken(data.accessToken))
+            dispatch(user.actions.setErrors(null))
 
-            localStorage.setItem('bath', JSON.stringify({
-              userId: data.userId,
-              username: data.username,
-              accessToken: data.accessToken
-            }))
+            // localStorage.setItem('bath', JSON.stringify({
+            //   userId: data.userId,
+            //   username: data.username,
+            //   accessToken: data.accessToken
+            // }))
           })
         } else {
-          dispatch(bath.actions.setErrors(data))
+          dispatch(user.actions.setErrors(data))
         }
       })
   }

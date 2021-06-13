@@ -75,7 +75,7 @@ export const MapContainer = () => {
 	return (
 		<div>
 			<h1 className="title">BadenBaden 
-				<span className="wave-emoji" role="img" aria-label="wave">🌊</span>
+				{/* <span className="wave-emoji" role="img" aria-label="wave">🌊</span> */}
 			</h1>
 			<MapPlacesAutocomplete panMapTo={panMapTo} />
 			<GetUserLocation panMapTo={panMapTo} />

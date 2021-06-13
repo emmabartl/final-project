@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api'
 import '@reach/combobox/styles.css'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import { Mapstyle } from '../components/MapStyle'
 import { MapPlacesAutocomplete } from '../components/MapPlacesAutocomplete'
@@ -33,7 +35,11 @@ const BathMap = () => {
 
 	const [bathMarkers, setBathMarkers] = useState([])
 	const [selected, setSelected] = useState(null)
-	const [currentPosition, setCurrentPosition] = useState(null)
+	// const [currentPosition, setCurrentPosition] = useState(null)
+
+  const currentPosition = useSelector(store => store.user.currentPosition)
+
+  const history = useHistory()
 
 	const onMapClick = useCallback((event) => {
 		setBathMarkers((current) => [
@@ -60,6 +66,10 @@ const BathMap = () => {
 		mapRef.current.setZoom(14)
 	}, [])
 
+  // const onCreateButtonClick = () => {
+
+  // }
+
 	
 	if (loadError) {
 		return "Error loading maps"
@@ -72,10 +82,20 @@ const BathMap = () => {
 	return (
 		<div>
 			<h1 className="title">BadenBaden 
-				<span className="wave-emoji" role="img" aria-label="wave">🌊</span>
+				{/* <span className="wave-emoji" role="img" aria-label="wave">🌊</span> */}
 			</h1>
+
 			<MapPlacesAutocomplete panMapTo={panMapTo} />
+
 			<GetUserLocation panMapTo={panMapTo} />
+      
+      {currentPosition ? (
+        <button 
+          className="create-button"
+          onClick={() => history.push('/profile')}
+        >Create bathplace
+        </button>) : null}
+
 			<GoogleMap 
 				mapContainerStyle={mapContainerStyle}
 				zoom={8}
@@ -84,7 +104,8 @@ const BathMap = () => {
 				onClick={onMapClick}
 				onLoad={onMapLoad}
 			>
-				{bathMarkers.map(marker => (
+				
+        {bathMarkers.map(marker => (
 					<Marker 
 						key={marker.time.toISOString()} //what does toISOString do?
 						position={{lat: marker.lat, lng: marker.lng}} 
@@ -99,6 +120,7 @@ const BathMap = () => {
 						}}
 					/>
 				))}
+
 				{selected ? (
 					<InfoWindow 
 						position={{lat: selected.lat, lng: selected.lng}}
@@ -109,6 +131,7 @@ const BathMap = () => {
 							<p>Last swim here "date"</p>
 						</div>
 					</InfoWindow>) : null}
+
 			</GoogleMap>
 		</div>
 	)
