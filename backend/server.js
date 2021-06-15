@@ -38,7 +38,11 @@ const userSchema = new mongoose.Schema({
 })
 
 const bathSchema = new mongoose.Schema({
-	name: String,//add validation?	
+	user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  name: String,//add validation?	
 	coordinates: {
 		lat: Number,
 		lng: Number,
@@ -105,12 +109,44 @@ app.post('/users', async (req, res) => {
   }
 })
 
-app.post('/bath', authenticateUser, async (req, res) => {
-	const newBath = await new Bath({ name: req.body.name }).save()
-	res.json(newBath)
+//authenticateUser,
+app.post('/baths', authenticateUser, async (req, res) => {
+  const accessToken = req.header('Authorization')
+  const user = await User.findOne({ accessToken })
+
+	const newBath = new Bath({ 
+    user: user, 
+    name: req.body.name, 
+    coordinates: req.body.coordinates,
+    rating: req.body.rating
+  })
+  await newBath.save()
+
+  if (newBath) {
+    res.json({
+      success: true,
+      user: newBath.user,
+      name: newBath.name,
+      coordinates: newBath.coordinates,
+      rating: newBath.rating
+    })
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'Could not create bath'
+    })
+  }
+  // const { name, coordinates, rating } = req.body
+  // const newBath = new Bath({ 
+  //   name: req.body.name, 
+  //   coordinates: req.body.coordinates
+  // })
+  
+  // await newBath.save()
+	// res.json(newBath)
 })
 
-app.post('/bath/:id/rate', async (req, res) => {
+app.post('/baths/:id/rate', async (req, res) => {
   const { id } = req.params
 
   try {
@@ -123,7 +159,7 @@ app.post('/bath/:id/rate', async (req, res) => {
   }
 })
 
-app.delete('/bath/:id', async (req, res) => {
+app.delete('/baths/:id', async (req, res) => {
   const { id } = req.params
 
   try {
