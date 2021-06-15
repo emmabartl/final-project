@@ -107,7 +107,7 @@ const BathMap = () => {
 				
         {bathMarkers.map(marker => (
 					<Marker 
-						key={marker.time.toISOString()} //what does toISOString do?
+						key={marker.time.toISOString()} //toISOString converts the date object into a string
 						position={{lat: marker.lat, lng: marker.lng}} 
 						icon={{
 							url: "/flamingo.png", //maybe change color?

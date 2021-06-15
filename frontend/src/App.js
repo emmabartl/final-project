@@ -17,6 +17,17 @@ const reducer = combineReducers({
 
 const store = configureStore({ reducer })
 
+store.subscribe(() => {
+  localStorage.setItem(
+    'user',
+    JSON.stringify({
+      username: store.getState().user.username,
+      userId: store.getState().user.userId,
+      accessToken: store.getState().user.accessToken
+    })
+  )
+})
+
 const App = () => {
   return (
     <BrowserRouter>

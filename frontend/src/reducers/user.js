@@ -1,17 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-//fix local storage
-
-const initialState = {
-	userId: null,
-	username: null,
-	accessToken: null,
-	currentPosition: null,
-	errors: null
-}
+const initialState = localStorage.getItem('user')
+	? {
+    userId: JSON.parse(localStorage.getItem('user')).userId,
+    username: JSON.parse(localStorage.getItem('user')).username,
+    accessToken: JSON.parse(localStorage.getItem('user')).accessToken,
+    currentPosition: null,
+    errors: null
+  }
+	: {
+    userId: null,
+    username: null,
+    accessToken: null,
+    currentPosition: null,
+    errors: null
+  }
 
 const user = createSlice({
-	name: "user",
+	name: "bath",
 	initialState,
 	reducers: {
 		setUserId: (store, action) => {

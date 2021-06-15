@@ -49,12 +49,6 @@ const SignUp = () => {
             dispatch(user.actions.setUsername(data.username))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
-
-            // localStorage.setItem('bath', JSON.stringify({
-            //   userId: data.userId,
-            //   username: data.username,
-            //   accessToken: data.accessToken
-            // }))
           })
         } else {
           dispatch(user.actions.setErrors(data))
