@@ -27,6 +27,18 @@ const userSchema = new mongoose.Schema({
 		unique: true,
 		trim: true
 	},
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    validate: {
+      validator: (value) => {
+        return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value)
+      },
+      message: 'Please enter a valid email address'
+    }
+  },
 	password: {
 		type: String, 
 		required: true,
@@ -42,16 +54,16 @@ const bathSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  name: String,//add validation?	
+  name: String,	
 	coordinates: {
 		lat: Number,
 		lng: Number,
 	},
-	rating: {	//waves?
+	rating: {	
 		type: Number,
 		default: 0
 	},
-	createdAt: { //other ways to make this?
+	createdAt: { 
 		type: Date,
 		default: Date.now
 	}
@@ -63,9 +75,11 @@ const Bath = mongoose.model('Bath', bathSchema)
 
 const authenticateUser = async (req, res, next) => {
   const accessToken = req.header('Authorization')
+  
   try {
     const user = await User.findOne({ accessToken })
     if (user) {
+      req.user = user
       next()
     } else {
       res.status(401).json({ success: false, message: 'Not authorized' })
@@ -84,16 +98,45 @@ app.get('/', (req, res) => {
   res.send(listEndpoints(app))
 })
 
-app.post('/users', async (req, res) => {
-  const { username, password } = req.body
+app.post('/login', async (req, res) => {
+  const { usernameOrEmail, password } = req.body
+
+  try {
+    const user = await User.findOne({
+      $or: [
+        { username: usernameOrEmail },
+        { email: usernameOrEmail }
+      ]
+    })
+
+    if (user && bcrypt.compareSync(password, user.password)) {
+      res.json({
+        success: true, 
+        userId: user._id,
+        username: user.username,
+        email: user.email,
+        accessToken: user.accessToken
+      })
+    } else {
+      res.status(404).json({ success: false, message: 'User not found' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
+app.post('/register', async (req, res) => {
+  const { username, email, password } = req.body
 
   try {
     const salt = bcrypt.genSaltSync()
     const newUser = new User({
       username,
+      email,
       password: bcrypt.hashSync(password, salt)
     })
 		await newUser.save()
+    
     res.json({
       success: true,
       userId: newUser._id,
@@ -109,55 +152,57 @@ app.post('/users', async (req, res) => {
   }
 })
 
-//authenticateUser,
 app.post('/baths', authenticateUser, async (req, res) => {
-  const accessToken = req.header('Authorization')
-  const user = await User.findOne({ accessToken })
 
-	const newBath = new Bath({ 
-    user: user, 
-    name: req.body.name, 
-    coordinates: req.body.coordinates,
-    rating: req.body.rating
-  })
-  await newBath.save()
-
-  if (newBath) {
+  try {
+    const newBath = new Bath({ 
+      user: req.user,
+      name: req.body.name, 
+      coordinates: req.body.coordinates,
+      rating: req.body.rating
+    })
+    await newBath.save()
     res.json({
       success: true,
       user: newBath.user,
+      bathId: newBath._id,
       name: newBath.name,
       coordinates: newBath.coordinates,
       rating: newBath.rating
     })
-  } else {
+  } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Could not create bath'
+      message: 'Could not create bath',
+      error
     })
   }
-  // const { name, coordinates, rating } = req.body
-  // const newBath = new Bath({ 
-  //   name: req.body.name, 
-  //   coordinates: req.body.coordinates
-  // })
-  
-  // await newBath.save()
-	// res.json(newBath)
 })
 
-app.post('/baths/:id/rate', async (req, res) => {
-  const { id } = req.params
+app.get('/baths', authenticateUser, async (req, res) => {
+  // const { id } = req.params
+  // const user = await User.findById(id)
 
-  try {
-    const updatedBath = await Bath.findOneAndUpdate({ _id: id }, { $inc: { rating: 1 } }, { new: true })
-    if (updatedBath) {
-      res.json(updatedBath)
-    }
-  } catch (error) {
-    res.status(404).json({ message: 'Bath not found' })
+  if (req.user) {
+    const bathList = await Bath.find({ user: mongoose.Types.ObjectId(req.user.id)}).sort({ createdAt: -1 })
+    res.json({ data: bathList })
+  } else {
+    res.status(404).json({ error: 'Baths not found' })
   }
 })
+	
+// app.post('/baths/:id/rate', async (req, res) => {
+//   const { id } = req.params
+
+//   try {
+//     const updatedBath = await Bath.findOneAndUpdate({ _id: id }, { $inc: { rating: 1 } }, { new: true })
+//     if (updatedBath) {
+//       res.json(updatedBath)
+//     }
+//   } catch (error) {
+//     res.status(404).json({ message: 'Bath not found' })
+//   }
+// })
 
 app.delete('/baths/:id', async (req, res) => {
   const { id } = req.params
