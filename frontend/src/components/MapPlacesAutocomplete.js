@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react'
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api'
+import React from 'react'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox'
 import '@reach/combobox/styles.css'
@@ -26,11 +25,11 @@ import '@reach/combobox/styles.css'
 			clearSuggestions()
 
 			try {
-				const results = await getGeocode({ address }) //first we want to pass the address to the builtin function getGeocode and the function will return results that we have to await for since it's a promise. What we have to pass to get geocode working is an object that has an address property of whatever address the user is searching for. 
+				const results = await getGeocode({ address }) //first we want to pass the address to the built-in function getGeocode and the function will return results that we have to await for since it's a promise. What we have to pass to get geocode working is an object that has an address property of whatever address the user is searching for. 
 				const { lat, lng } = await getLatLng(results[0]) //getLatLng is a function that comes with the package and helps us extract the lat lng from the "big array" that the geocode returns to us. We pass in the first result to get back the lat and lng.
 				console.log(lat, lng)
 				panMapTo({ lat, lng })
-			} catch(error) { // to catch rejected promise
+			} catch (error) {
 				console.log(error)
 			}
 		}

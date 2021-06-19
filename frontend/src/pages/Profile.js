@@ -31,6 +31,7 @@ const Profile = () => {
         {/* <h3>Do you wanna dive in?</h3> */}
       </div>
       <BathForm />
+      <BathList />
     </section>
   )
 }

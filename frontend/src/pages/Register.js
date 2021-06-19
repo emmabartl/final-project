@@ -5,9 +5,10 @@ import { useHistory } from 'react-router-dom'
 import { API_URL } from '../reusable/urls'
 import user from '../reducers/user'
 
-const SignUp = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+const Register = () => {
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const accessToken = useSelector(store => store.user.accessToken)
   const errors = useSelector(store => store.user.errors)
@@ -17,12 +18,16 @@ const SignUp = () => {
 
   useEffect(() => {
     if (accessToken) {
-      history.push('/bathmap')
+      history.push('/')
     }
   }, [accessToken, history])
 
   const onNameChange = (event) => {
     setUsername(event.target.value)
+  }
+
+  const onEmailChange = (event) => {
+    setEmail(event.target.value)
   }
 
   const onPasswordChange = (event) => {
@@ -37,21 +42,24 @@ const SignUp = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, email, password })
     }
 
-    fetch(API_URL('users'), options)
+    fetch(API_URL('register'), options)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
           batch(() => {
-            dispatch(user.actions.setUserId(data.userId))
+            // dispatch(user.actions.setUserId(data.userId))
             dispatch(user.actions.setUsername(data.username))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
           })
         } else {
           dispatch(user.actions.setErrors(data))
+          setUsername("")
+          setEmail("")
+          setPassword("")
         }
       })
   }
@@ -69,20 +77,34 @@ const SignUp = () => {
             <p className="error-message">{errors.message}</p>}
           </>
         }
-        <label className="input-wrapper">
-          <p className="input-label">Name</p>
+        <label htmlFor="nameInput" className="input-wrapper">
+          <p className="input-label">Username</p>
           <input
+            id="nameInput"
             className="input-field"
             type="text"
             value={username}
             onChange={onNameChange}
-            placeholder="Type your username"
+            placeholder="Username"
             required
           />
         </label>
-        <label className="input-wrapper">
+        <label htmlFor="emailInput" className="input-wrapper">
+          <p className="input-label">Email</p>
+          <input
+            id="emailInput"
+            className="input-field"
+            type="email"
+            value={email}
+            onChange={onEmailChange}
+            placeholder="Email"
+            required
+          />
+        </label>
+        <label htmlFor="passwordInput" className="input-wrapper">
           <p className="input-label">Password</p>
           <input
+            id="passwordInput"
             className="input-box"
             type="password"
             value={password}
@@ -92,14 +114,14 @@ const SignUp = () => {
           />
         </label>
         <div className="button-container">
-          <button type="submit" className="form-button">Sign up</button>
+          <button type="submit" className="form-button">Register</button>
         </div>
       </form>
-      <div className="img-container">
+      {/* <div className="img-container">
         <img src="../public/flamingo.png" alt="flamingo icon" />
-      </div>
+      </div> */}
     </section>
   )
 }
 
-export default SignUp
+export default Register

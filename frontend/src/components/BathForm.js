@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { FaWater } from 'react-icons/fa'
 
 import { API_URL } from '../reusable/urls'
 
-import user from '../reducers/user'
 import bath from '../reducers/bath'
 
 const BathForm = () => {
-  const userId = useSelector(store => store.user.userId)
-  const username = useSelector(store => store.user.username)
   const accessToken = useSelector(store => store.user.accessToken)
   const currentPosition = useSelector(store => store.user.currentPosition)
-  const rating = useSelector(store => store.bath.rating)
 
   const [name, setName] = useState("")
   const [bathRating, setBathRating] = useState(0)
@@ -50,9 +46,10 @@ const BathForm = () => {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          
+          console.log(data)
           batch(() => {
             dispatch(bath.actions.setName(data.name))
+            dispatch(bath.actions.setBathId(data.bathId))
             dispatch(bath.actions.setCoordinates(data.coordinates))
             dispatch(bath.actions.setRating(data.rating))
             dispatch(bath.actions.setErrors(null))
@@ -71,12 +68,6 @@ const BathForm = () => {
       }
     })
   } 
-
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     history.push('/');
-  //   }
-  // }, [accessToken, history]);
   
   return (
       <section className="form-container">

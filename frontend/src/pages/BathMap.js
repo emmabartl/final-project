@@ -52,8 +52,8 @@ const BathMap = () => {
 		])
 	}, [])
 
-	const mapRef = useRef()
-	const onMapLoad = useCallback((map) => {
+	const mapRef = useRef() //returns a mutable ref object that will persist for the full lifetime of the object, ie it will give you the same object on every render
+	const onMapLoad = useCallback((map) => { //will return a memoized version of the callback that only changes if one of the dependencies has changed. 
 		mapRef.current = map
 	}, [])
 
@@ -99,7 +99,7 @@ const BathMap = () => {
 			<GoogleMap 
 				mapContainerStyle={mapContainerStyle}
 				zoom={8}
-				center={center} //another way to display this?
+				center={center} 
 				options={options}
 				onClick={onMapClick}
 				onLoad={onMapLoad}
@@ -116,10 +116,21 @@ const BathMap = () => {
 							anchor: new window.google.maps.Point(15, 15)
 						}}
 						onClick={() => {
-							setSelected(marker) //change this to a function?
+							setSelected(marker) 
 						}}
 					/>
 				))}
+
+				{currentPosition ? (
+        <Marker  
+					position={currentPosition} 
+					icon={{
+						url: "/flamingo.png", //maybe change color?
+						scaledSize: new window.google.maps.Size(30, 30),
+						origin: new window.google.maps.Point(0, 0),
+						anchor: new window.google.maps.Point(15, 15)
+					}}
+        />) : null}
 
 				{selected ? (
 					<InfoWindow 
@@ -128,7 +139,9 @@ const BathMap = () => {
 					>
 						<div>
 							<h2>My bathplace</h2>
-							<p>Last swim here "date"</p>
+							<p>Name *name*</p>
+							<p>Last swim here *date*</p>
+							<p>Rating *rating*</p>
 						</div>
 					</InfoWindow>) : null}
 

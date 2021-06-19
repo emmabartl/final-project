@@ -1,0 +1,14 @@
+backend: 
+  fix email
+  get all baths 
+
+frontend:
+  fix email
+  show all baths
+  styling
+
+  stretch:
+  shared bath feed
+  radio-buttons for grass, stone, sand, cliffs
+  weather api
+  water api
