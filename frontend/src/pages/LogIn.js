@@ -4,6 +4,8 @@ import { useHistory, Link } from 'react-router-dom'
 
 import { API_URL } from '../reusable/urls'
 import Header from '../components/Header'
+import Navbar from '../components/Navbar'
+import HeroVideo from '../components/HeroVideo'
 
 import user, { loginRegister } from '../reducers/user'
 
@@ -72,7 +74,9 @@ const Login = () => {
 
   return (
     <section className="login-container">
-      <Header /> 
+      <Header />
+      <Navbar />
+      <HeroVideo /> 
       {/* //Header containing navbar, hamburger? drawer navigation? */}
       <h1>Do you wanna dive in?</h1>
       <form className="login-form" onSubmit={onFormSubmit}>

@@ -3,11 +3,13 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 
 import { API_URL } from '../reusable/urls'
 
+console.log(localStorage.getItem('user'))
 const initialState = localStorage.getItem('user')
 	? {
     // userId: JSON.parse(localStorage.getItem('user')).userId,
     username: JSON.parse(localStorage.getItem('user')).username,
     accessToken: JSON.parse(localStorage.getItem('user')).accessToken,
+		baths: null, 
     currentPosition: null,
     errors: null
   }
@@ -15,12 +17,13 @@ const initialState = localStorage.getItem('user')
     // userId: null,
     username: null,
     accessToken: null,
+		baths: [],
     currentPosition: null,
     errors: null
   }
 
 const user = createSlice({
-	name: "bath",
+	name: "user",
 	initialState,
 	reducers: {
 		// setUserId: (store, action) => {
@@ -32,8 +35,16 @@ const user = createSlice({
 		setAccessToken: (store, action) => {
 			store.accessToken = action.payload
 		},
+		setBaths: (store, action) => {
+			store.baths = action.payload
+		},
 		setCurrentPosition: (store, action) => {
 			store.currentPosition = action.payload
+		},
+		addBath: (store, action) => {
+			let bathList = [action.payload, ...store.baths]
+			// bathList.push(action.payload)
+			store.baths = bathList
 		},
 		setErrors: (store, action) => {
 			store.errors = action.payload

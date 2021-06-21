@@ -1,83 +1,80 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { FaWater } from 'react-icons/fa'
 
 import { API_URL } from '../reusable/urls'
 
-import bath from '../reducers/bath'
+import user from '../reducers/user'
 
-const BathForm = () => {
-  const accessToken = useSelector(store => store.user.accessToken)
-  const currentPosition = useSelector(store => store.user.currentPosition)
 
+
+
+const BathForm = (props) => {
   const [name, setName] = useState("")
   const [bathRating, setBathRating] = useState(0)
+  const [newBath, setNewBath] = useState(null)
   // const [hover, setHover] = useState(null)
+  // const location = useLocation()
+  // console.log(location.state)
+  const accessToken = useSelector(store => store.user.accessToken)
+  const currentPosition = useSelector(store => store.user.currentPosition)
   
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const onNameChange = (event) => {
     setName(event.target.value)
   }
 
+  const options = {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken
+    }, 
+    body: JSON.stringify({ 
+      name,
+      coordinates: {
+        lat: currentPosition.lat,
+        lng: currentPosition.lng
+      },
+      rating: bathRating
+    })
+  }
+
+
   const onFormSubmit = (event) => {
     event.preventDefault()
 
-    const options = {
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken
-      }, 
-      body: JSON.stringify({ 
-        name,
-        coordinates: {
-          lat: currentPosition.lat,
-          lng: currentPosition.lng
-        },
-        rating: bathRating
-      })
-    }
-    console.log(currentPosition)
-    console.log(options)
     fetch(API_URL('baths'), options)
-      .then(res => res.json())
+      .then(res => 
+        res.json())
       .then(data => {
         if (data.success) {
-          console.log(data)
           batch(() => {
-            dispatch(bath.actions.setName(data.name))
-            dispatch(bath.actions.setBathId(data.bathId))
-            dispatch(bath.actions.setCoordinates(data.coordinates))
-            dispatch(bath.actions.setRating(data.rating))
-            dispatch(bath.actions.setErrors(null))
+            dispatch(user.actions.addBath(data.bath))
+            dispatch(user.actions.setErrors(null))
 
-            // localStorage.setItem('user', JSON.stringify({
-            //   userId: data.userId,
-            //   username: data.username,
-            //   accessToken: data.accessToken
-            // }))
-        })
-      } else {
-          dispatch(bath.actions.setErrors(data))
-          // setName('')
-          // setBathLocation([])
-          // setBathRating(null)
-      }
-    })
-  } 
+            // localStorage.setItem('user', JSON.stringify(data.baths))
+          })
+        } else {
+          dispatch(user.actions.setErrors(data))
+          setName('')
+          setBathRating(null)
+        }
+      })
+    } 
   
   return (
       <section className="form-container">
+        {/* {data.bath} */}
         <h1>Create your bath place</h1>
-        <form className="bath-form" onSubmit={onFormSubmit}>
+         <form className="bath-form" onSubmit={onFormSubmit}>
           <label className="bath-input-label">
             <p className="bath-input-title">Bath place</p>
             <input
               className="bath-input-field"
               type="text"
+              name="name"
               value={name}
               onChange={onNameChange}
               placeholder="What do you call your place?"
@@ -108,7 +105,11 @@ const BathForm = () => {
               )
            })} 
           </div>
-          <button className="submit-button" type="submit">
+          <button 
+            className="submit-button" 
+            type="submit"
+            
+          >
             Submit form button
           </button>
         </form>

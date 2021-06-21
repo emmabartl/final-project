@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 //need to implement local storage??
 
 const initialState = {
-	bathId: null,
+	id: null,
 	name: null,
 	coordinates: {},
 	rating: null,
@@ -14,8 +14,8 @@ const bath = createSlice({
 	name: "bath",
 	initialState,
 	reducers: {
-		setBathId: (store, action) => {
-			store.bathId = action.payload
+		setId: (store, action) => {
+			store.id = action.payload
 		},
 		setName: (store, action) => {
 			store.name = action.payload
@@ -31,5 +31,11 @@ const bath = createSlice({
 		}
 	}
 })
+
+// export const userBaths = () => {
+// 	return (dispatch, getStore) => {
+
+// 	}
+// }
 
 export default bath

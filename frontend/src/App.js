@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
+import Navbar from './components/Navbar'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import BathMap from './pages/BathMap'
@@ -33,17 +34,18 @@ const App = () => {
   return (
     <BrowserRouter>
       <Provider store={store} >
+        <Navbar />
         <Switch>
           <Route exact path='/'>
             <Login />
           </Route>
-          <Route exact path='/register'>
+          <Route path='/register'>
             <Register />
           </Route>
-          <Route exact path='/bathmap'>
+          <Route path='/bathmap'>
             <BathMap />
           </Route>
-          <Route exact path='/profile'>
+          <Route path='/profile'>
             <Profile />
           </Route>
         </Switch>

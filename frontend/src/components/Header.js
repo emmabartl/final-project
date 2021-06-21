@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react'
+import React from 'react'
 import { batch, useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
@@ -10,12 +10,7 @@ const Header = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  // useEffect(() => {
-  //   history.push('/signup')
-
-  // }, [logout, history])
-
-  const onButtonClick = (event) => {
+  const onButtonClick = () => {
 
     batch(() => {
       // dispatch(user.actions.setUserId(null))
@@ -23,13 +18,30 @@ const Header = () => {
       dispatch(user.actions.setAccessToken(null))
 
       localStorage.removeItem('user')
+
+      history.push('/')
     })
   }
 
   return (
-    <header>
+    <section className="header-container">
+      {/* <header className="hero-container">
+        {'/' && <video 
+          src="./Videos/waves.mp4"
+          type="video/mp4" 
+          // autoPlay={true}
+          loop={true}
+          muted={true}
+          width="750"
+          height="500"
+        >
+        </video>}
+          
+        
+
+      </header> */}
       {accessToken && <button className="sign-out-button" onClick={onButtonClick}>Sign out</button>}  
-    </header>
+    </section>
   )
 }
 
