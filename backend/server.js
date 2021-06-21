@@ -164,11 +164,15 @@ app.post('/baths', authenticateUser, async (req, res) => {
     await newBath.save()
     res.json({
       success: true,
-      user: newBath.user,
-      bathId: newBath._id,
-      name: newBath.name,
-      coordinates: newBath.coordinates,
-      rating: newBath.rating
+      // user: newBath.user,
+      bath: {
+        id: newBath._id,
+        name: newBath.name,
+        coordinates: newBath.coordinates,
+        rating: newBath.rating,
+        createdAt: newBath.createdAt,
+        user: newBath.user._id
+      }
     })
   } catch (error) {
     res.status(400).json({
@@ -185,7 +189,7 @@ app.get('/baths', authenticateUser, async (req, res) => {
 
   if (req.user) {
     const bathList = await Bath.find({ user: mongoose.Types.ObjectId(req.user.id)}).sort({ createdAt: -1 })
-    res.json({ data: bathList })
+    res.json({ success: true, baths: bathList })
   } else {
     res.status(404).json({ error: 'Baths not found' })
   }
