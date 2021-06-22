@@ -3,13 +3,12 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 
 import { API_URL } from '../reusable/urls'
 
-console.log(localStorage.getItem('user'))
 const initialState = localStorage.getItem('user')
 	? {
     // userId: JSON.parse(localStorage.getItem('user')).userId,
     username: JSON.parse(localStorage.getItem('user')).username,
     accessToken: JSON.parse(localStorage.getItem('user')).accessToken,
-		baths: null, 
+		baths: [], 
     currentPosition: null,
     errors: null
   }

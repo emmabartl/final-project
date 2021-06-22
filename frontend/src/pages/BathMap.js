@@ -11,6 +11,7 @@ import Header from '../components/Header'
 import { Mapstyle } from '../components/MapStyle'
 import { MapPlacesAutocomplete } from '../components/MapPlacesAutocomplete'
 import { GetUserLocation } from '../components/GetUserLocation'
+import BathForm from '../components/BathForm'
 
 import user from '../reducers/user'
 import bath from '../reducers/bath'
@@ -123,6 +124,15 @@ const BathMap = () => {
 		return "Loading maps"
 	}
 
+	const infoWindowRating = () => {
+		bathList.forEach(bath => {
+			return bath.rating
+		})
+		const rating = bath.rating
+		console.log(rating)
+	}
+	infoWindowRating()
+	console.log(bathList)
 
 	return (
 		<section className="map-container">
@@ -200,17 +210,29 @@ const BathMap = () => {
 						position={{lat: selected.coordinates.lat, lng: selected.coordinates.lng}}
 						onCloseClick={onInfoCloseClick}
 					>
-						<div>
+						<div className="info-window">
 							<h2>My bathplace</h2>
-							<p>Name {bath.name}</p>
-							<p>Your rating {bath.rating}
-							<FaWater 
-                  className="rating-waves" 
-                  size={20}
-                  color={"#FA649A"}
-                /></p>
-							<p>Created {moment(bath.createdAt).calendar()}</p>
-							<button onClick={() => history.push('/profile')}>Show in profile</button>
+							<p>Name {selected.name}</p>
+							<p>Your rating 
+								{bathList.map(bath => {
+									const rating = bath.rating
+									return (
+										[...Array(rating).keys()].map(wave => {  
+											return (
+												<div className="info-window-rating"> 
+													<FaWater 
+													className="rating-waves" 
+													size={20}
+													color={"#FA649A"}
+													/>
+												</div>
+											)
+										})
+									)		
+								})}
+							</p>
+							<p>Created {moment(selected.createdAt).calendar()}</p>
+							{/* <button onClick={() => history.push({'/profile', state: })}>Show in profile</button> */}
 						</div>
 					</InfoWindow>) : null}
 
