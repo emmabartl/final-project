@@ -2,6 +2,8 @@ import React from 'react'
 import { batch, useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import flamingo from '../assets/flamingos.png'
+
 import user from '../reducers/user'
 
 const Header = () => {
@@ -11,7 +13,6 @@ const Header = () => {
   const history = useHistory()
 
   const onButtonClick = () => {
-
     batch(() => {
       // dispatch(user.actions.setUserId(null))
       dispatch(user.actions.setUsername(null))
@@ -25,21 +26,9 @@ const Header = () => {
 
   return (
     <section className="header-container">
-      {/* <header className="hero-container">
-        {'/' && <video 
-          src="./Videos/waves.mp4"
-          type="video/mp4" 
-          // autoPlay={true}
-          loop={true}
-          muted={true}
-          width="750"
-          height="500"
-        >
-        </video>}
-          
-        
-
-      </header> */}
+      <div className="img-container">
+        <img className="flamingo" src={flamingo} alt="flamingo icon" />
+      </div>
       {accessToken && <button className="sign-out-button" onClick={onButtonClick}>Sign out</button>}  
     </section>
   )

@@ -3,11 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
+import Header from './components/Header'
 import Navbar from './components/Navbar'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import BathMap from './pages/BathMap'
 import Profile from './pages/Profile'
+import Footer from './components/Footer'
 
 import user from './reducers/user'
 import bath from './reducers/bath'
@@ -34,6 +36,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Provider store={store} >
+        <Header />
         <Navbar />
         <Switch>
           <Route exact path='/'>
@@ -49,6 +52,7 @@ const App = () => {
             <Profile />
           </Route>
         </Switch>
+        <Footer />
       </Provider>
     </BrowserRouter>
   );

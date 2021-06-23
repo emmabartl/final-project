@@ -73,49 +73,45 @@ const Login = () => {
 
 
   return (
-    <section className="login-container">
-      <Header />
-      <Navbar />
+    <>
       <HeroVideo /> 
-      {/* //Header containing navbar, hamburger? drawer navigation? */}
-      <h1>Do you wanna dive in?</h1>
-      <form className="login-form" onSubmit={onFormSubmit}>
-        <h1 className="form-header">login</h1>
-       
-        <label htmlFor="nameInput" className="input-wrapper">
-          <p className="input-label">Username</p>
-          <input
-            id="nameInput"
-            className="input-field"
-            type="text"
-            value={usernameOrEmail}
-            onChange={onUsernameOrEmailChange}
-            placeholder="Username or email"
-            required
-          />
-        </label>
-        <label htmlFor="passwordInput" className="input-wrapper">
-          <p className="input-label">Password</p>
-          <input
-            id="passwordInput"
-            className="input-box"
-            type="password"
-            value={password}
-            onChange={onPasswordChange}
-            placeholder="Password"
-            required
-          />
-        </label>
-        <div className="button-container">
-          <button type="submit" className="form-button">Login</button>
+      <section className="login-container">
+        <h1 className="login-form-header">Login to your account</h1>
+        <form className="login-form-container" onSubmit={onFormSubmit}>
+          <label htmlFor="nameInput" className="input-label">Username  
+            <input
+              id="nameInput"
+              className="input-field"
+              type="text"
+              value={usernameOrEmail}
+              onChange={onUsernameOrEmailChange}
+              placeholder="Username or email"
+              required
+            />
+          </label>
+          <label htmlFor="passwordInput" className="input-label">Password
+            <input
+              id="passwordInput"
+              className="input-field"
+              type="password"
+              value={password}
+              onChange={onPasswordChange}
+              placeholder="Password"
+              required
+            />
+          </label>
+          <div className="button-container">
+            <button type="submit" className="login-form-button">Login</button>
+          </div>
+        </form>
+        <div className="create-account-text">
+          <p>Don't have an account yet?</p>
+          <Link to='/register'>
+            <p>Create account</p>
+          </Link>
         </div>
-      </form>
-      {/* <LogIn /> //create login form here */} 
-      <p>Don't have an account yet?</p>
-      <Link to='/register'>
-        <p>Create account</p>
-      </Link>
-    </section>
+      </section>
+    </>
   )
 }
 

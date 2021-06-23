@@ -7,20 +7,17 @@ import { useHistory } from 'react-router-dom'
 import { FaWater } from 'react-icons/fa'
 
 import { API_URL } from '../reusable/urls'
-import Header from '../components/Header'
 import { Mapstyle } from '../components/MapStyle'
-import { MapPlacesAutocomplete } from '../components/MapPlacesAutocomplete'
-import { GetUserLocation } from '../components/GetUserLocation'
-import BathForm from '../components/BathForm'
+import MapPlacesAutocomplete from '../components/MapPlacesAutocomplete'
+import GetUserLocation from '../components/GetUserLocation'
 
 import user from '../reducers/user'
-import bath from '../reducers/bath'
 
 const libraries = ["places"] 
 
 const mapContainerStyle = {
 	width: "100vw",
-	height: "100vh"
+	height: "80vh"
 }
 
 const center = {
@@ -124,34 +121,10 @@ const BathMap = () => {
 		return "Loading maps"
 	}
 
-	const infoWindowRating = () => {
-		bathList.forEach(bath => {
-			return bath.rating
-		})
-		const rating = bath.rating
-		console.log(rating)
-	}
-	infoWindowRating()
-	console.log(bathList)
-
 	return (
 		<section className="map-container">
-			<Header />
-			<h1 className="title">BadenBaden 
-				{/* <span className="wave-emoji" role="img" aria-label="wave">🌊</span> */}
-			</h1>
-
 			<MapPlacesAutocomplete panMapTo={panMapTo} />
-
 			<GetUserLocation panMapTo={panMapTo} />
-      
-      
-        <button 
-          className="create-button"
-          onClick={() => history.push('/profile')}
-        >Create bathplace
-        </button>)
-
 			<GoogleMap 
 				mapContainerStyle={mapContainerStyle}
 				zoom={8}
@@ -159,82 +132,79 @@ const BathMap = () => {
 				options={options}
 				onClick={onMapClick}
 				onLoad={onMapLoad}
-			>
-				
-        {bathMarkers.map(marker => (
-					<Marker 
-						key={marker.time.toISOString()} //toISOString converts the date object into a string
-						position={{lat: marker.coordinates.lat, lng: marker.coordinates.lng}} 
-						icon={{
-							url: "/flamingo.png", //maybe change color?
-							scaledSize: new window.google.maps.Size(30, 30),
-							origin: new window.google.maps.Point(0, 0),
-							anchor: new window.google.maps.Point(15, 15)
-						}}
-						onClick={() => {
-							setSelected(marker) 
-						}}
-					/>
-				))}
-
-				{currentPosition ? (
-        <Marker  
-					position={currentPosition} 
+			> {bathMarkers.map(marker => (
+				<Marker 
+					key={marker.time.toISOString()} //toISOString converts the date object into a string
+					position={{lat: marker.coordinates.lat, lng: marker.coordinates.lng}} 
 					icon={{
-						url: "/user.svg", //maybe change color?
-						scaledSize: new window.google.maps.Size(120, 120),
+						url: "/flamingo.png", //maybe change color?
+						scaledSize: new window.google.maps.Size(30, 30),
 						origin: new window.google.maps.Point(0, 0),
 						anchor: new window.google.maps.Point(15, 15)
 					}}
-        />) : null}
+					onClick={() => {
+						setSelected(marker) 
+					}}
+				/>
+			))}
 
-				{bathList && bathList.map(bath => (
-						<Marker 
-							key={bath._id} 
-							position={{lat: bath.coordinates.lat, lng: bath.coordinates.lng}} 
-							icon={{
-								url: "/flamingo.png", //maybe change color?
-								scaledSize: new window.google.maps.Size(30, 30),
-								origin: new window.google.maps.Point(0, 0),
-								anchor: new window.google.maps.Point(15, 15)
-							}}
-							onClick={() => {
-								setSelected(bath) 
-							}}
-						/>
-					)
-				)}
+			{currentPosition ? (
+				<Marker  
+					position={currentPosition} 
+					icon={{
+						url: "/user.svg",
+						scaledSize: new window.google.maps.Size(120, 120),
+						origin: new window.google.maps.Point(0, 0),
+						anchor: new window.google.maps.Point(33, 58)
+					}}
+			/>) : null}
 
-				{selected ? (
-					<InfoWindow 
-						position={{lat: selected.coordinates.lat, lng: selected.coordinates.lng}}
-						onCloseClick={onInfoCloseClick}
-					>
-						<div className="info-window">
-							<h2>My bathplace</h2>
-							<p>Name {selected.name}</p>
-							<p>Your rating 
-								{bathList.map(bath => {
-									const rating = bath.rating
-									return (
-										[...Array(rating).keys()].map(wave => {  
-											return (
-												<div className="info-window-rating"> 
-													<FaWater 
-													className="rating-waves" 
-													size={20}
-													color={"#FA649A"}
-													/>
-												</div>
-											)
-										})
-									)		
-								})}
-							</p>
-							<p>Created {moment(selected.createdAt).calendar()}</p>
-							{/* <button onClick={() => history.push({'/profile', state: })}>Show in profile</button> */}
+			{bathList && bathList.map(bath => (
+				<Marker 
+					key={bath._id} 
+					position={{lat: bath.coordinates.lat, lng: bath.coordinates.lng}} 
+					icon={{
+						url: "/flamingo.png", //maybe change color?
+						scaledSize: new window.google.maps.Size(30, 30),
+						origin: new window.google.maps.Point(0, 0),
+						anchor: new window.google.maps.Point(15, 15)
+					}}
+					onClick={() => {
+						setSelected(bath) 
+					}}
+				/>
+			))}
+
+			{selected ? (
+				<InfoWindow 
+					position={{lat: selected.coordinates.lat, lng: selected.coordinates.lng}}
+					onCloseClick={onInfoCloseClick}
+				>
+					<div className="info-window">
+						<h2>My bathplace</h2>
+						<div className="info-rating-container">
+							<p className="bath-name">{selected.name}</p>
+							{[...Array(selected.rating).keys()].map(wave => {  
+								return (
+									<div className="info-window-rating"> 
+										<FaWater 
+										className="rating-waves-small" 
+										size={20}
+										color={"#FA649A"}
+										/>
+									</div>
+								)
+							})}
 						</div>
-					</InfoWindow>) : null}
+						<p>Created {moment(selected.createdAt).calendar()}</p>
+						{/* <button onClick={() => history.push({'/profile', state: })}>Show in profile</button> */}
+					</div>
+				</InfoWindow>) : null}
+				
+				<div className="map-button-container">
+					<button className="create-bath-button" onClick={() => history.push('/profile')}>Create bathplace
+					</button>
+				</div>
 
 			</GoogleMap>
 		</section>

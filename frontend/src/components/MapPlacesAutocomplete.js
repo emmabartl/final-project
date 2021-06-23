@@ -4,7 +4,7 @@ import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption 
 import '@reach/combobox/styles.css'
 
 	//usePlaceAutocomplete gives us a number of variables in an object that we can deconstruct the values from 
-	export const MapPlacesAutocomplete = ({ panMapTo }) => {
+	const MapPlacesAutocomplete = ({ panMapTo }) => {
 		const {
 			ready, //is the setup, searchscript, loaded etc, is everything ready
 			value, //the users current value in the searchbox
@@ -39,7 +39,7 @@ import '@reach/combobox/styles.css'
 		}
 
 		return (
-			<div>
+			<>
 				<Combobox 
 					className="search-box" 
 					onSelect={handleSelect}
@@ -59,9 +59,11 @@ import '@reach/combobox/styles.css'
 						</ComboboxList> 		
 					</ComboboxPopover>
 				</Combobox>
-			</div>
+			</>
 		)
 	}
+
+	export default MapPlacesAutocomplete
 
 	//ComboboxPopover receives all of the suggestions that google places has given us
 	//data.map through the suggestions and for each suggestion (by deconstructuring) we get the id and the description

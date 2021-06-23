@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import user from '../reducers/user'
 
 
-export const GetUserLocation = ({ panMapTo }) => {
+const GetUserLocation = ({ panMapTo }) => {
 	const dispatch = useDispatch()
 
 	const onButtonClick = () => {
@@ -21,11 +21,8 @@ export const GetUserLocation = ({ panMapTo }) => {
 	}
 
 	return (
-		<button 
-			className="position-button"
-			onClick={onButtonClick}	
-		>Find me
-			{/* <img className="position-button-img" src="user.svg" alt="find-me-icon" /> */}
-		</button>
+		<button className="position-button" onClick={onButtonClick}>Find me</button>
 	)
 }
+
+export default GetUserLocation

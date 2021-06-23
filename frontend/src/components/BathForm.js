@@ -12,10 +12,8 @@ import user from '../reducers/user'
 const BathForm = (props) => {
   const [name, setName] = useState("")
   const [bathRating, setBathRating] = useState(0)
-  const [newBath, setNewBath] = useState(null)
   // const [hover, setHover] = useState(null)
-  // const location = useLocation()
-  // console.log(location.state)
+  
   const accessToken = useSelector(store => store.user.accessToken)
   const currentPosition = useSelector(store => store.user.currentPosition)
   
@@ -41,7 +39,6 @@ const BathForm = (props) => {
     })
   }
 
-
   const onFormSubmit = (event) => {
     event.preventDefault()
 
@@ -53,8 +50,6 @@ const BathForm = (props) => {
           batch(() => {
             dispatch(user.actions.addBath(data.bath))
             dispatch(user.actions.setErrors(null))
-
-            // localStorage.setItem('user', JSON.stringify(data.baths))
           })
         } else {
           dispatch(user.actions.setErrors(data))
@@ -62,15 +57,15 @@ const BathForm = (props) => {
           setBathRating(null)
         }
       })
+      setName("")
     } 
   
   return (
-      <section className="form-container">
-        {/* {data.bath} */}
-        <h1>Create your bath place</h1>
-         <form className="bath-form" onSubmit={onFormSubmit}>
+    <>
+      {currentPosition && <section className="bath-form-container">
+        <form className="bath-form" onSubmit={onFormSubmit}>
+          <p className="bath-input-label">Bath place</p>
           <label className="bath-input-label">
-            <p className="bath-input-title">Bath place</p>
             <input
               className="bath-input-field"
               type="text"
@@ -81,6 +76,7 @@ const BathForm = (props) => {
               required
             />
           </label>
+          <p className="bath-input-label">Rate your bath</p>
           <div className="rating-container">
             {[...Array(5)].map((wave, val) => {
               const ratingValue =  val + 1
@@ -95,25 +91,19 @@ const BathForm = (props) => {
                   />
                 <FaWater 
                   className="rating-waves" 
-                  size={100}
-                  color={ratingValue <= bathRating ? "#FA649A" : "#f2f2f2" }
-                  // (hover || rating)
+                  size={80}
+                  color={ratingValue <= bathRating ? "#fc8fb7" : "#f2f2f2" }
                   // onMouseEnter={() => setHover(ratingValue)}
                   // onMouseLeave={() => setHover(null)}
                 />
                 </label>
               )
-           })} 
+            })} 
           </div>
-          <button 
-            className="submit-button" 
-            type="submit"
-            
-          >
-            Submit form button
-          </button>
+          <button className="save-button" type="submit">Save bath</button>
         </form>
-      </section>
+      </section>}
+    </>
   )
 }
 

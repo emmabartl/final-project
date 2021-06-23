@@ -29,20 +29,14 @@ const Profile = () => {
   
   return (
     <section className="profile-container">
-      <Header />
-      <div>
-        <h1>
-          Welcome {username}
-        </h1>
+      <div className="profile-container-left">
+        <h1 className="profile-title">Welcome {username}</h1>
+        <h2 className="profile-subtitle">Create your bath place</h2>
+        <BathForm />
       </div>
-      {currentPosition && <BathForm />}
-      {baths.length > 0 ? 
+      <div className="profile-container-right">
         <BathList />
-      : <div>
-          <p>You haven't created any baths yet</p>
-          {/* <p>Go to the menu to create one</p> */}
-        </div>
-      }
+      </div>
     </section>
   )
 }

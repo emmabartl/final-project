@@ -71,19 +71,16 @@ const Register = () => {
 
   return (
     <section className="signup-container">
-      <form className="signup-form" onSubmit={onFormSubmit}>
-        <h1 className="header-form">Create an user</h1>
+      <h1 className="form-header">Create an account</h1>
+      <form className="form-container" onSubmit={onFormSubmit}>
         {errors && 
           <>
             {errors.error.code === 11000 
-            ? 
-            <p className="error-message">Username is not unique</p>
-            : 
-            <p className="error-message">{errors.message}</p>}
+            ? <p className="error-message">Username is not unique</p>
+            : <p className="error-message">{errors.message}</p>}
           </>
         }
-        <label htmlFor="nameInput" className="input-wrapper">
-          <p className="input-label">Username</p>
+        <label htmlFor="nameInput" className="input-label-register">Username
           <input
             id="nameInput"
             className="input-field"
@@ -94,8 +91,7 @@ const Register = () => {
             required
           />
         </label>
-        <label htmlFor="emailInput" className="input-wrapper">
-          <p className="input-label">Email</p>
+        <label htmlFor="emailInput" className="input-label-register">Email
           <input
             id="emailInput"
             className="input-field"
@@ -106,11 +102,10 @@ const Register = () => {
             required
           />
         </label>
-        <label htmlFor="passwordInput" className="input-wrapper">
-          <p className="input-label">Password</p>
+        <label htmlFor="passwordInput" className="input-label-register">Password
           <input
             id="passwordInput"
-            className="input-box"
+            className="input-field"
             type="password"
             value={password}
             onChange={onPasswordChange}
