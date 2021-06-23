@@ -1,5 +1,4 @@
 import express from 'express'
-// import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import crypto from 'crypto'
@@ -11,10 +10,7 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 mongoose.Promise = Promise
 
 
-// Defines the port the app will run on. Defaults to 8080, but can be 
-// overridden when starting the server. For example:
-//
-//   PORT=9000 npm start
+// The port the app will run on
 const port = process.env.PORT || 8080
 const app = express()
 
@@ -89,11 +85,11 @@ const authenticateUser = async (req, res, next) => {
   }
 }
 
-// Add middlewares to enable cors and json body parsing
+//Middlewares
 app.use(cors())
 app.use(express.json())
 
-// Start defining your routes here
+//Routes here
 app.get('/', (req, res) => {
   res.send(listEndpoints(app))
 })
@@ -164,7 +160,6 @@ app.post('/baths', authenticateUser, async (req, res) => {
     await newBath.save()
     res.json({
       success: true,
-      // user: newBath.user,
       bath: {
         id: newBath._id,
         name: newBath.name,
@@ -184,8 +179,6 @@ app.post('/baths', authenticateUser, async (req, res) => {
 })
 
 app.get('/baths', authenticateUser, async (req, res) => {
-  // const { id } = req.params
-  // const user = await User.findById(id)
 
   if (req.user) {
     const bathList = await Bath.find({ user: mongoose.Types.ObjectId(req.user.id)}).sort({ createdAt: -1 })
@@ -194,19 +187,6 @@ app.get('/baths', authenticateUser, async (req, res) => {
     res.status(404).json({ error: 'Baths not found' })
   }
 })
-	
-// app.post('/baths/:id/rate', async (req, res) => {
-//   const { id } = req.params
-
-//   try {
-//     const updatedBath = await Bath.findOneAndUpdate({ _id: id }, { $inc: { rating: 1 } }, { new: true })
-//     if (updatedBath) {
-//       res.json(updatedBath)
-//     }
-//   } catch (error) {
-//     res.status(404).json({ message: 'Bath not found' })
-//   }
-// })
 
 app.delete('/baths/:id', async (req, res) => {
   const { id } = req.params
