@@ -3,28 +3,24 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 import { useHistory, Link } from 'react-router-dom'
 
 import { API_URL } from '../reusable/urls'
-import Header from '../components/Header'
-import Navbar from '../components/Navbar'
 import HeroVideo from '../components/HeroVideo'
 
-import user, { loginRegister } from '../reducers/user'
+import user from '../reducers/user'
 
 const Login = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState('') 
   const [password, setPassword] = useState('')
-  // const [mode, setMode] = useState(null)
 
   const accessToken = useSelector(store => store.user.accessToken)
-  const errors = useSelector(store => store.user.errors)
 
   const dispatch = useDispatch()
   const history = useHistory()
 
-  useEffect(() => {
-    if (accessToken) {
-      history.push('/bathmap')
-    }
-  }, [accessToken, history])
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     history.push('/bathmap')
+  //   }
+  // }, [accessToken, history])
 
   const onUsernameOrEmailChange = (event) => {
     setUsernameOrEmail(event.target.value)
@@ -36,8 +32,6 @@ const Login = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault()
-
-    // dispatch(loginRegister(usernameOrEmail, password))
 
     const options = {
       method: 'POST',
@@ -52,7 +46,6 @@ const Login = () => {
       .then(data => {
         if (data.success) {
           batch(() => {
-            // dispatch(user.actions.setUserId(data.userId))
             dispatch(user.actions.setUsername(data.username))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
@@ -70,12 +63,10 @@ const Login = () => {
       })
   }
 
-
-
   return (
     <>
       <HeroVideo /> 
-      <section className="login-container">
+      {!accessToken && <section className="login-container">
         <h1 className="login-form-header">Login to your account</h1>
         <form className="login-form-container" onSubmit={onFormSubmit}>
           <label htmlFor="nameInput" className="input-label">Username  
@@ -110,7 +101,7 @@ const Login = () => {
             <p>Create account</p>
           </Link>
         </div>
-      </section>
+      </section>}
     </>
   )
 }

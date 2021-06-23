@@ -14,7 +14,6 @@ const Header = () => {
 
   const onButtonClick = () => {
     batch(() => {
-      // dispatch(user.actions.setUserId(null))
       dispatch(user.actions.setUsername(null))
       dispatch(user.actions.setAccessToken(null))
 

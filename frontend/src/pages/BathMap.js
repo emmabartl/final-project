@@ -20,10 +20,7 @@ const mapContainerStyle = {
 	height: "80vh"
 }
 
-const center = {
-	lat: 59.334591,
-	lng: 18.063240
-}
+const center = { lat: 59.334591, lng: 18.063240 }
 
 const options = {
 	styles: Mapstyle,
@@ -32,12 +29,6 @@ const options = {
 }
 
 const BathMap = () => {
-	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: "AIzaSyDsRQkIeyHXT6ImlwQ5SsnJUhfKB7Kktww",
-		libraries
-		//process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-	})
-
 	const [bathMarkers, setBathMarkers] = useState([])
 	const [selected, setSelected] = useState(null)
 	const [isLoading, setIsLoading] = useState(true)
@@ -48,6 +39,12 @@ const BathMap = () => {
 
   const history = useHistory()
 	const dispatch = useDispatch()
+
+	const { isLoaded, loadError } = useLoadScript({
+		googleMapsApiKey: "AIzaSyDsRQkIeyHXT6ImlwQ5SsnJUhfKB7Kktww",
+		libraries
+		//process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+	})
 
 	useEffect(() => {
     fetchBathList()
@@ -84,22 +81,12 @@ const BathMap = () => {
 	const onMapClick = useCallback((event) => {
 		const lat = event.latLng.lat()
 		const lng = event.latLng.lng()
+
 		dispatch(user.actions.setCurrentPosition({lat, lng}))
-		// setBathMarkers((current) => [
-		// 	...current, 
-		// 	{
-		// 		coordinates: {
-		// 			lat: event.latLng.lat(),
-		// 			lng: event.latLng.lng(),
-		// 		},
-		// 		time: new Date()
-		// 	},
-		// ])
-		//dispatch till currentposition istället för Bathmarkers
 	}, [])
 
-	const mapRef = useRef() //returns a mutable ref object that will persist for the full lifetime of the object, ie it will give you the same object on every render
-	const onMapLoad = useCallback((map) => { //will return a memoized version of the callback that only changes if one of the dependencies has changed. 
+	const mapRef = useRef() 
+	const onMapLoad = useCallback((map) => { 
 		mapRef.current = map
 	}, [])
 
@@ -134,10 +121,10 @@ const BathMap = () => {
 				onLoad={onMapLoad}
 			> {bathMarkers.map(marker => (
 				<Marker 
-					key={marker.time.toISOString()} //toISOString converts the date object into a string
+					key={marker.time.toISOString()}
 					position={{lat: marker.coordinates.lat, lng: marker.coordinates.lng}} 
 					icon={{
-						url: "/flamingo.png", //maybe change color?
+						url: "/flamingo.png",
 						scaledSize: new window.google.maps.Size(30, 30),
 						origin: new window.google.maps.Point(0, 0),
 						anchor: new window.google.maps.Point(15, 15)
@@ -164,7 +151,7 @@ const BathMap = () => {
 					key={bath._id} 
 					position={{lat: bath.coordinates.lat, lng: bath.coordinates.lng}} 
 					icon={{
-						url: "/flamingo.png", //maybe change color?
+						url: "/flamingo.png", 
 						scaledSize: new window.google.maps.Size(30, 30),
 						origin: new window.google.maps.Point(0, 0),
 						anchor: new window.google.maps.Point(15, 15)
@@ -197,7 +184,6 @@ const BathMap = () => {
 							})}
 						</div>
 						<p>Created {moment(selected.createdAt).calendar()}</p>
-						{/* <button onClick={() => history.push({'/profile', state: })}>Show in profile</button> */}
 					</div>
 				</InfoWindow>) : null}
 				

@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import user from '../reducers/user'
-
 
 const GetUserLocation = ({ panMapTo }) => {
 	const dispatch = useDispatch()

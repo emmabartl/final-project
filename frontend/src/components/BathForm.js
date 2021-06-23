@@ -6,9 +6,6 @@ import { API_URL } from '../reusable/urls'
 
 import user from '../reducers/user'
 
-
-
-
 const BathForm = (props) => {
   const [name, setName] = useState("")
   const [bathRating, setBathRating] = useState(0)

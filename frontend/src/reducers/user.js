@@ -1,11 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { useSelector, useDispatch, batch } from 'react-redux'
-
-import { API_URL } from '../reusable/urls'
 
 const initialState = localStorage.getItem('user')
 	? {
-    // userId: JSON.parse(localStorage.getItem('user')).userId,
     username: JSON.parse(localStorage.getItem('user')).username,
     accessToken: JSON.parse(localStorage.getItem('user')).accessToken,
 		baths: [], 
@@ -13,7 +9,6 @@ const initialState = localStorage.getItem('user')
     errors: null
   }
 	: {
-    // userId: null,
     username: null,
     accessToken: null,
 		baths: [],
@@ -25,9 +20,6 @@ const user = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		// setUserId: (store, action) => {
-		// 	store.userId = action.payload
-		// },
 		setUsername: (store, action) => {
 			store.username = action.payload
 		},
@@ -42,7 +34,6 @@ const user = createSlice({
 		},
 		addBath: (store, action) => {
 			let bathList = [action.payload, ...store.baths]
-			// bathList.push(action.payload)
 			store.baths = bathList
 		},
 		setErrors: (store, action) => {
@@ -50,39 +41,5 @@ const user = createSlice({
 		}
 	}
 })
-
-// export const loginRegister = (usernameOrEmail, password, mode) => {
-// 	return (dispatch, getStore) => {
-// 		const options = {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ usernameOrEmail, password })
-//     }
-
-//     fetch(API_URL(mode), options)
-//       .then(res => res.json())
-//       .then(data => {
-//         if (data.success) {
-//           batch(() => {
-//             // dispatch(user.actions.setUserId(data.userId))
-//             dispatch(user.actions.setUsername(data.username))
-//             dispatch(user.actions.setAccessToken(data.accessToken))
-//             dispatch(user.actions.setErrors(null))
-
-//             localStorage.setItem('user', JSON.stringify({
-//               username: data.username,
-//               accessToken: data.accessToken
-//             }))
-//           })
-//         } else {
-//           dispatch(user.actions.setErrors(data))
-//           setUsernameOrEmail("")
-//           setPassword("")
-//         }
-//       })
-// 	}
-// }
 
 export default user

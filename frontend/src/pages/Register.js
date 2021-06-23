@@ -50,7 +50,6 @@ const Register = () => {
       .then(data => {
         if (data.success) {
           batch(() => {
-            // dispatch(user.actions.setUserId(data.userId))
             dispatch(user.actions.setUsername(data.username))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
@@ -117,9 +116,6 @@ const Register = () => {
           <button type="submit" className="form-button">Register</button>
         </div>
       </form>
-      {/* <div className="img-container">
-        <img src="../public/flamingo.png" alt="flamingo icon" />
-      </div> */}
     </section>
   )
 }

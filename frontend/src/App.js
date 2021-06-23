@@ -12,25 +12,10 @@ import Profile from './pages/Profile'
 import Footer from './components/Footer'
 
 import user from './reducers/user'
-import bath from './reducers/bath'
 
-const reducer = combineReducers({
-  user: user.reducer,
-  bath: bath.reducer
-})
+const reducer = combineReducers({ user: user.reducer })
 
 const store = configureStore({ reducer })
-
-// store.subscribe(() => {
-//   localStorage.setItem(
-//     'user',
-//     JSON.stringify({
-//       username: store.getState().user.username,
-//       userId: store.getState().user.userId,
-//       accessToken: store.getState().user.accessToken
-//     })
-//   )
-// })
 
 const App = () => {
   return (

@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { FaWater } from 'react-icons/fa'
-
-
-import { API_URL } from '../reusable/urls'
-import user from '../reducers/user'
 import { useHistory } from 'react-router-dom'
 
+import { API_URL } from '../reusable/urls'
+
+import user from '../reducers/user'
 
 const BathList = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -48,10 +47,6 @@ const BathList = () => {
       .catch(error => {
         alert (error.message)
       })   
-  }
-
-  const onButtonClick = () => {
-
   }
     
   return (
@@ -103,20 +98,3 @@ const BathList = () => {
 
 export default BathList
 
- 
-  // console.log(bathList.data)
-
-  // if using useFetch
-  // const options = {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': accessToken
-  //   }
-  // }
-
-  // const { fetchData, data: bathList, isLoading } = UseFetch('baths', options)
-
-  // useEffect(() => {
-  //   fetchData()
-  // }, [])
