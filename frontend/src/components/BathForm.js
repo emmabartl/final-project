@@ -9,7 +9,6 @@ import user from '../reducers/user'
 const BathForm = (props) => {
   const [name, setName] = useState("")
   const [bathRating, setBathRating] = useState(0)
-  // const [hover, setHover] = useState(null)
   
   const accessToken = useSelector(store => store.user.accessToken)
   const currentPosition = useSelector(store => store.user.currentPosition)
@@ -88,10 +87,7 @@ const BathForm = (props) => {
                   />
                 <FaWater 
                   className="rating-waves" 
-                  size={80}
                   color={ratingValue <= bathRating ? "#fc8fb7" : "#f2f2f2" }
-                  // onMouseEnter={() => setHover(ratingValue)}
-                  // onMouseLeave={() => setHover(null)}
                 />
                 </label>
               )

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -6,7 +6,6 @@ import BathForm from '../components/BathForm'
 import BathList from '../components/BathList'
 
 const Profile = () => {
-  const [isLoading, setIsLoading] = useState(true)
   const username = useSelector(store => store.user.username)
   const accessToken = useSelector(store => store.user.accessToken)
   

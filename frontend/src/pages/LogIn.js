@@ -16,11 +16,11 @@ const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  // useEffect(() => {
-  //   if (accessToken) {
-  //     history.push('/bathmap')
-  //   }
-  // }, [accessToken, history])
+  useEffect(() => {
+    if (accessToken) {
+      history.push('/bathmap')
+    }
+  }, [accessToken, history])
 
   const onUsernameOrEmailChange = (event) => {
     setUsernameOrEmail(event.target.value)

@@ -3,6 +3,7 @@ import { useSelector, useDispatch, batch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { API_URL } from '../reusable/urls'
+
 import user from '../reducers/user'
 
 const Register = () => {

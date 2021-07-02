@@ -41,9 +41,8 @@ const BathMap = () => {
 	const dispatch = useDispatch()
 
 	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: "AIzaSyDsRQkIeyHXT6ImlwQ5SsnJUhfKB7Kktww",
+		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 		libraries
-		//process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 	})
 
 	useEffect(() => {

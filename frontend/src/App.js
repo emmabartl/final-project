@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
 import Header from './components/Header'
-import Navbar from './components/Navbar'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import BathMap from './pages/BathMap'
@@ -22,7 +21,6 @@ const App = () => {
     <BrowserRouter>
       <Provider store={store} >
         <Header />
-        <Navbar />
         <Switch>
           <Route exact path='/'>
             <Login />
