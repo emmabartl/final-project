@@ -188,21 +188,6 @@ app.get('/baths', authenticateUser, async (req, res) => {
   }
 })
 
-app.delete('/baths/:id', async (req, res) => {
-  const { id } = req.params
-
-  try {
-    const deletedBath = await Bath.findByIdAndDelete(id)
-    if (deletedBath) {
-      res.json(deletedBath)
-    } else {
-      res.status(404).json({ message: 'Bath not found' })
-    }
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid request', error })
-  }
-})
-
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
