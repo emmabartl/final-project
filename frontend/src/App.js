@@ -8,7 +8,6 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import BathMap from './pages/BathMap'
 import Profile from './pages/Profile'
-import Footer from './components/Footer'
 
 import user from './reducers/user'
 
@@ -35,7 +34,6 @@ const App = () => {
             <Profile />
           </Route>
         </Switch>
-        <Footer />
       </Provider>
     </BrowserRouter>
   );
